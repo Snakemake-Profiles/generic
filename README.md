@@ -1,6 +1,14 @@
 # adaptable profile
 
-This profile configures snakemake to run on any cluster system. The mapping between snakemake ressources and cluster submission can be configured.  
+This profile configures snakemake to run on any cluster system. The mapping between snakemake ressources and cluster submission can be configured in the cluster_spec.yaml.
+In addition, default values are used for all rules not having the snakemake ressource paremeters.
+
+The units are:
+
+time: minutes
+memory: GB
+
+but can be changed.
 
 
 ## Deploy profile
