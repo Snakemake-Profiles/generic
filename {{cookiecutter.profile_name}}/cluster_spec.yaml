@@ -18,7 +18,7 @@ __default__:
   time: "{{cookiecutter.default_time_min}}" # minutes
   mem: "{{cookiecutter.default_mem_GB}}" # GB
   threads: "{{cookiecutter.default_threads}}"
-  queue: "{{default_queue}}" # required
+  queue: "{{cookiecutter.default_queue}}" # required
   nodes: 1
   # ntasks: 24
 
