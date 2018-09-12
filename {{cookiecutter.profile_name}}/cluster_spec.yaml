@@ -14,7 +14,7 @@ __default__:
 
 
 
-  account: "{{cookiecutter.account}}" #requred
+  #account: "" #requred
   time: "{{cookiecutter.default_time_min}}" # minutes
   mem: "{{cookiecutter.default_mem_GB}}" # GB
   threads: "{{cookiecutter.default_threads}}"
