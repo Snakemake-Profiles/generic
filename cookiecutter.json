@@ -1,5 +1,4 @@
 {
-
   "profile_name": "myprofile",
   "cluster_system": "slurm",
   "account": "",
@@ -8,5 +7,4 @@
   "default_threads": "8",
   "default_time_min": "300",
   "abs_path": "/home/usr/.snakemake/snakemake/",
-
 }
