@@ -1,4 +1,12 @@
 {
-    "profile_name": "surfsara-grid",
-    "storage_prefix": "lsgrid/Project_MinE/Tape/Shared/SV/calling"
+
+  "profile_name": "myprofile",
+  "cluster_system": "slurm",
+  "account": "",
+  "default_queue": "debug",
+  "default_mem_GB": "10",
+  "default_threads": "8",
+  "default_time_min": "300",
+  "abs_path": "/home/usr/.snakemake/snakemake/",
+
 }
