@@ -4,8 +4,8 @@ cluster-status: "{{cookiecutter.abs_path}}/{{cookiecutter.profile_name}}"/slurm_
 cluster-config: "{{cookiecutter.abs_path}}/{{cookiecutter.profile_name}}"/cluster_spec.yaml" #abs path
 max-jobs-per-second: 1
 max-status-checks-per-second: 10
-#cores: 99 # how many jobs you want to submit to your cluster queue
+cores: 99 # how many jobs you want to submit to your cluster queue
 local-cores: 1
-rerun-incomplete: true
-conda-prefix: "{{cookiecutter.abs_path}}/conda_envs" # path to folder where to save conda envs
+rerun-incomplete: true  # recomended for cluster submissions
+conda-prefix: "{{cookiecutter.abs_path}}/conda_envs" # path to folder where to save all conda envs
 keep-going: true

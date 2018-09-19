@@ -1,27 +1,19 @@
 
-
-# only parameters defined in key_mapping (see below) are passed to the command.
 __default__:
   system: "{{cookiecutter.cluster_system}}" #check if system is defined below
 
 # default parameter for all rules
-# for steps, where memory/threads can be specified the values defined in the config file are used.
-# assembly_threads
-# assembly_mem
-# threads
-# java_mem
-# for all others the parameters here are used
+# for steps, where memory/threads are not specified in the Snakefilecan
 
-
-
-  #account: "" #requred
+  #account: ""
   time: "{{cookiecutter.default_time_min}}" # minutes
   mem: "{{cookiecutter.default_mem_GB}}" # GB
   threads: "{{cookiecutter.default_threads}}"
   queue: "{{cookiecutter.default_queue}}" # required
   nodes: 1
-  # ntasks: 24
 
+
+# only parameters defined in key_mapping (see below) are passed to the command.
   command_options:
     slurm:
       command: "sbatch --parsable"
@@ -44,7 +36,7 @@ __default__:
         time: "-W {}"
         nodes: "-C {}"
 
-# for other commands see: https://slurm.schedmd.com/rosetta.pdf
+# for other cluster systems see: https://slurm.schedmd.com/rosetta.pdf
 
 
 

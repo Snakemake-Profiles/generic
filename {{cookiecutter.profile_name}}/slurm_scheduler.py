@@ -30,8 +30,6 @@ for res in ['time','mem']:
     if res in job_properties["resources"]:
         cluster_param[res] = job_properties["resources"][res]
 
-#print parameters
-#eprint("Submit job with parameters:\n"+"\n".join(["\t{} : {}".format(key,cluster_param[key]) for key in cluster_param]))
 
 # check which system you are on and load command command_options
 
@@ -42,7 +40,6 @@ key_mapping= command_options['key_mapping']
 
 # construct command:
 for  key in key_mapping:
-
     if key in cluster_param:
         command+=" "
         command+=key_mapping[key].format(cluster_param[key])
