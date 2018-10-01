@@ -5,5 +5,5 @@
   "default_mem_GB": "10",
   "default_threads": "8",
   "default_time_min": "300",
-  "abs_path": "/home/usr/.snakemake/snakemake/"
+  "abs_path": "current dir e.g. /home/usr/.config/snakemake/"
 }
