@@ -13,7 +13,7 @@ __default__:
   nodes: 1
 
 
-# only parameters defined in key_mapping (see below) are passed to the command.
+# only parameters defined in key_mapping (see below) are passed to the command in the order specified.
   command_options:
     slurm:
       command: "sbatch --parsable"
@@ -25,16 +25,18 @@ __default__:
         queue: "--partition={}"
         time: "--time={}"
         nodes: "-N {}"
-    lsf:
-      command: "bsub"
+    pbs:
+      command: "qsub"
       key_mapping:
-        name: "-J {}"
-        threads: "-n {}"
-        mem: "-M {}000000"
-        account: "-P {}"
+        name: "-N {}"
+        account: "-W group_list={}"
         queue: "-q {}"
-        time: "-W {}"
-        nodes: "-C {}"
+        nodes: "-l nodes={}" # -l has to be on first resource element
+        threads: "ppn={}"
+        mem: "mem={}gb"
+        time: "walltime={}00" #min= seconds x 100
+
+
 
 # for other cluster systems see: https://slurm.schedmd.com/rosetta.pdf
 
