@@ -35,6 +35,16 @@ __default__:
         threads: "ppn={}"
         mem: "mem={}gb"
         time: "walltime={}00" #min= seconds x 100
+    lsf:
+      command: "bsub"
+      key_mapping:
+        name: "-J {}"
+        threads: "-n {}"
+        mem: "-M {}000000"
+        account: "-P {}"
+        queue: "-q {}"
+        time: "-W {}"
+        nodes: "-C {}"
 
 
 
