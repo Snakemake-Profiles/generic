@@ -1,7 +1,7 @@
 restart-times: 0
-cluster: "{{cookiecutter.abs_path}}/{{cookiecutter.profile_name}}/scheduler.py" #
-cluster-status: "{{cookiecutter.abs_path}}/{{cookiecutter.profile_name}}/{{cookiecutter.cluster_system}}_status.py" #
-cluster-config: "{{cookiecutter.abs_path}}/{{cookiecutter.profile_name}}/cluster_spec.yaml" #abs path
+cluster: "$((INSTALDIR))/{{cookiecutter.profile_name}}/scheduler.py" #
+cluster-status: "$((INSTALDIR))/{{cookiecutter.profile_name}}/{{cookiecutter.cluster_system}}_status.py" #
+cluster-config: "$((INSTALDIR))/{{cookiecutter.profile_name}}/cluster_spec.yaml" #abs path
 max-jobs-per-second: 1
 max-status-checks-per-second: 10
 cores: 99 # how many jobs you want to submit to your cluster queue
