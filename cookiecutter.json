@@ -1,5 +1,5 @@
 {
-  "profile_name": "myprofile",
+  "profile_name": "cluster",
   "cluster_system": "slurm",
   "default_queue": "debug",
   "default_mem_GB": "10",
