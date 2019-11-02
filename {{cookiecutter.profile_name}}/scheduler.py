@@ -11,17 +11,21 @@ def eprint(*args, **kwargs):
 # let snakemake read job_properties
 from snakemake.utils import read_job_properties
 
+
+
 jobscript = sys.argv[1]
 job_properties = read_job_properties(jobscript)
-
-
-
-
 
 #default paramters defined in cluster_spec (accessed via snakemake read_job_properties)
 cluster_param= job_properties["cluster"]
 
-cluster_param['name'] = job_properties['rule']
+if job_properties["type"]=='rule':
+    cluster_param['name'] = job_properties['rule']
+elif job_properties["type"]=='group':
+    cluster_param['name'] = job_properties['groupid']
+else:
+    raise NotImplementedError(f"Don't know what to do with job_properties['type']=={job_properties['type']}")
+
 
 # overwrite default parameters if defined in rule (or config file)
 if 'threads' in job_properties:
@@ -29,6 +33,10 @@ if 'threads' in job_properties:
 for res in ['time','mem']:
     if res in job_properties["resources"]:
         cluster_param[res] = job_properties["resources"][res]
+
+# time in hours
+if "time" in cluster_param:
+    cluster_param["time"]*=60
 
 
 # check which system you are on and load command command_options
