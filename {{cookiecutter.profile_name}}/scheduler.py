@@ -37,7 +37,7 @@ for res in ['time','mem']:
 
 # time in hours
 if "time" in cluster_param:
-    cluster_param["time"]*=60
+    cluster_param["time"]=int(cluster_param["time"]*60)
 
 
 # check which system you are on and load command command_options
