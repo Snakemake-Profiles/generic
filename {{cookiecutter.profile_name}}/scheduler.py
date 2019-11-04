@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
 
-import sys
+import sys, os
 from subprocess import Popen, PIPE
-import json
+import yaml
 
 def eprint(*args, **kwargs):
     print(*args, file=sys.stderr, **kwargs)
@@ -12,7 +12,7 @@ def eprint(*args, **kwargs):
 # let snakemake read job_properties
 from snakemake.utils import read_job_properties
 
-json.load("key_mapping.yaml")
+
 
 jobscript = sys.argv[1]
 job_properties = read_job_properties(jobscript)
@@ -41,11 +41,10 @@ if "time" in cluster_param:
 
 
 # check which system you are on and load command command_options
+command_options=yaml.load(os.path.join(os.path.dirname(__file__),"key_mapping.yaml"))
+command= command_options[command_options['system']]['command']
 
-command_options= cluster_param['command_options'][cluster_param['system']]
-command= command_options['command']
-
-key_mapping= command_options['key_mapping']
+key_mapping= command_options[command_options['system']]['key_mapping']
 
 # construct command:
 for  key in key_mapping:
