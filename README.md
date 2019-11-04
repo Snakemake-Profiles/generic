@@ -17,7 +17,7 @@ To deploy this profile,
 
 Then, you can run Snakemake with
 
-    snakemake --profile adaptable_profile ...
+    snakemake --profile cluster ...
 
 so that jobs are submitted to the cluster.
 If a job fails, you will find the "external jobid" in the Snakemake error message.
