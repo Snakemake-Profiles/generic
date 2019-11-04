@@ -41,7 +41,9 @@ if "time" in cluster_param:
 
 
 # check which system you are on and load command command_options
-command_options=yaml.load(os.path.join(os.path.dirname(__file__),"key_mapping.yaml"))
+key_mapping_file=os.path.join(os.path.dirname(__file__),"key_mapping.yaml")
+command_options=yaml.load(open(key_mapping_file),
+                          Loader=yaml.BaseLoader)
 command= command_options[command_options['system']]['command']
 
 key_mapping= command_options[command_options['system']]['key_mapping']
