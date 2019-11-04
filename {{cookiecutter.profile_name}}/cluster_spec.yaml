@@ -1,7 +1,5 @@
 
 __default__:
-  system: "{{cookiecutter.cluster_system}}" #check if system is defined below
-
 # default parameter for all rules
 # for steps, where memory/threads are not specified in the Snakefilecan
 
