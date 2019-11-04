@@ -22,7 +22,7 @@ cluster_param= job_properties["cluster"]
 
 if job_properties["type"]=='rule':
     cluster_param['name'] = job_properties['rule']
-elif job_properties["type"]=='group':
+elif job_properties["type"]=='single':
     cluster_param['name'] = job_properties['groupid']
 else:
     raise NotImplementedError(f"Don't know what to do with job_properties['type']=={job_properties['type']}")
