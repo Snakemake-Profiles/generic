@@ -3,6 +3,7 @@
 
 import sys
 from subprocess import Popen, PIPE
+import json
 
 def eprint(*args, **kwargs):
     print(*args, file=sys.stderr, **kwargs)
@@ -11,7 +12,7 @@ def eprint(*args, **kwargs):
 # let snakemake read job_properties
 from snakemake.utils import read_job_properties
 
-
+json.load("key_mapping.yaml")
 
 jobscript = sys.argv[1]
 job_properties = read_job_properties(jobscript)

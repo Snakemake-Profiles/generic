@@ -6,56 +6,16 @@ __default__:
 # for steps, where memory/threads are not specified in the Snakefilecan
 
   #account: ""
-  time: "{{cookiecutter.default_time_min}}" # minutes
+  time: "{{cookiecutter.default_time_h}}" # h
   mem: "{{cookiecutter.default_mem_GB}}" # GB
   threads: "{{cookiecutter.default_threads}}"
   queue: "{{cookiecutter.default_queue}}" # required
   nodes: 1
 
 
-# only parameters defined in key_mapping (see below) are passed to the command in the order specified.
-  command_options:
-    slurm:
-      command: "sbatch --parsable"
-      key_mapping:
-        name: "--job-name={}"
-        threads: "-n {}"
-        mem: "--mem={}g"
-        account: "--account={}"
-        queue: "--partition={}"
-        time: "--time={}"
-        nodes: "-N {}"
-    pbs:
-      command: "qsub"
-      key_mapping:
-        name: "-N {}"
-        account: "-W group_list={}"
-        queue: "-q {}"
-        nodes: "-l nodes={}" # -l has to be on first resource element
-        threads: "ppn={}"
-        mem: "mem={}gb"
-        time: "walltime={}00" #min= seconds x 100
-    lsf:
-      command: "bsub"
-      key_mapping:
-        name: "-J {}"
-        threads: "-n {}"
-        mem: "-M {}000000"
-        account: "-P {}"
-        queue: "-q {}"
-        time: "-W {}"
-        nodes: "-C {}"
-
-
-
-# for other cluster systems see: https://slurm.schedmd.com/rosetta.pdf
-
-
-
-
 # specific parameters for certain rules, which need more time/memory
 
 #run_assembler:
 #  queue: bigmem
-#  time: 1710
+#  time: 10
 #   threads and memory definen in config file
