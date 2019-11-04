@@ -20,7 +20,7 @@ job_properties = read_job_properties(jobscript)
 #default paramters defined in cluster_spec (accessed via snakemake read_job_properties)
 cluster_param= job_properties["cluster"]
 
-if job_properties["type"]=='rule':
+if job_properties["type"]=='single':
     cluster_param['name'] = job_properties['rule']
 elif job_properties["type"]=='group':
     cluster_param['name'] = job_properties['groupid']
