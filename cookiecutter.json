@@ -2,7 +2,4 @@
   "profile_name": "cluster",
   "cluster_system": "slurm",
   "default_queue": "normal",
-  "default_mem_GB": "5",
-  "default_threads": "8",
-  "default_time_h": "0.5"
 }

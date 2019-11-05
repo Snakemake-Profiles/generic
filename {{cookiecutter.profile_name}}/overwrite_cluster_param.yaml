@@ -4,9 +4,9 @@ __default__:
 # for steps, where memory/threads are not specified in the Snakefilecan
 
   #account: ""
-  time: "{{cookiecutter.default_time_h}}" # h
-  mem: "{{cookiecutter.default_mem_GB}}" # GB
-  threads: "{{cookiecutter.default_threads}}"
+  #time:  # h
+  #mem:  # GB
+  #threads:
   queue: "{{cookiecutter.default_queue}}" # required
   nodes: 1
 
@@ -15,5 +15,5 @@ __default__:
 
 #run_assembler:
 #  queue: bigmem
-#  time: 10
+#  time: 100
 #   threads and memory definen in config file

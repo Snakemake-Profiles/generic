@@ -28,11 +28,11 @@ else:
     raise NotImplementedError(f"Don't know what to do with job_properties['type']=={job_properties['type']}")
 
 
-# overwrite default parameters if defined in rule (or config file)
-if 'threads' in job_properties:
+# don't overwrite default parameters if defined in rule (or config file)
+if ('threads' in job_properties) and ('time' not in cluster_param):
     cluster_param["threads"] = job_properties["threads"]
 for res in ['time','mem']:
-    if res in job_properties["resources"]:
+    if (res in job_properties["resources"]) and (res not in cluster_param):
         cluster_param[res] = job_properties["resources"][res]
 
 # time in hours

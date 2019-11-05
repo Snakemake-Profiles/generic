@@ -1,5 +1,5 @@
 restart-times: 0
-cluster-config: "$((INSTALDIR))/cluster_spec.yaml" #abs path
+cluster-config: "$((INSTALDIR))/overwrite_cluster_param.yaml" #abs path
 cluster: "scheduler.py" #
 cluster-status: "{{cookiecutter.cluster_system}}_status.py" #
 max-jobs-per-second: 10
