@@ -19,6 +19,8 @@ You need cookiecutter to be installed.
 
     conda install cookiecutter
 
+You should know what the default queue/partition you are using.
+
 To deploy this profile,
 
     mkdir -p ~/.config/snakemake
