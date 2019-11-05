@@ -1,7 +1,7 @@
 # generic profile
 
-This profile configures snakemake to run on any cluster system. The mapping between snakemake ressources and cluster submission can be configured in the cluster_spec.yaml.
-In addition, default values are used for all rules not having the snakemake ressource paremeters.
+This profile configures snakemake to run on any cluster system. The mapping between snakemake ressources and cluster submission can be configured in the `key_mapping.yaml`.
+In addition,  values can be overwritten by using the `overwrite_cluster_param.yaml`  file.
 
 The units are minutes and GB but can be changed.
 
@@ -17,7 +17,7 @@ To deploy this profile,
 
 Then, you can run Snakemake with
 
-    snakemake --profile myprofile ...
+    snakemake --profile cluster ...
 
 so that jobs are submitted to the cluster.
 If a job fails, you will find the "external jobid" in the Snakemake error message.
