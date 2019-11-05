@@ -1,4 +1,4 @@
 {
   "cluster_system": "slurm",
-  "default_queue": "normal",
+  "default_queue": "normal"
 }
