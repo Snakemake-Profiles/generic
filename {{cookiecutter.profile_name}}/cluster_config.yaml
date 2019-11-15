@@ -1,7 +1,7 @@
 
 __default__:
 # default parameter for all rules
-  queue: "{{cookiecutter.default_queue}}" # required
+  #queue: # default queue
   nodes: 1
 
 
