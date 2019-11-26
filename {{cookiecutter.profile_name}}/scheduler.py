@@ -30,7 +30,7 @@ else:
 
 
 # don't overwrite default parameters if defined in rule (or config file)
-if ('threads' in job_properties) and ('time' not in cluster_param):
+if ('threads' in job_properties) and ('threads' not in cluster_param):
     cluster_param["threads"] = job_properties["threads"]
 for res in ['time','mem']:
     if (res in job_properties["resources"]) and (res not in cluster_param):
