@@ -1,12 +1,12 @@
 
 __default__:
 # default parameter for all rules
-  #queue: # default queue
+  #queue: normal
   nodes: 1
 
 
 # The following rules in atlas need need more time/memory.
-# If you need to submitt them to different queues you can vonfigure this as outlined.
+# If you need to submit them to different queues you can configure this as outlined.
 
 # run_megahit:
 #   queue: bigmem
@@ -27,5 +27,4 @@ __default__:
 
   #account: ""
   #time:  # h
-  #mem:  # GB
   #threads:
