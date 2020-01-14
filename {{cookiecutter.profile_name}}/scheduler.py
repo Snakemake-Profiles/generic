@@ -71,6 +71,9 @@ else:
         match = re.search(r"Job <(\d+)> is submitted", response_stdout)
         jobid = match.group(1)
 
+    elif system=='pbs':
+        jobid= res.strip()
+
     else:
         jobid= int(res.strip().split()[-1])
 

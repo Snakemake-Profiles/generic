@@ -1,6 +1,10 @@
+## This is a yaml file, defining options for specific rules or by default.
+## The '#' defines a comment.
+## the two spaces at the beginning of rows below rulenames are important.
+## For more information see https://snakemake.readthedocs.io/en/stable/executing/cluster-cloud.html#cluster-execution
 
-__default__:
 # default parameter for all rules
+__default__:
   #queue: normal
   nodes: 1
 
@@ -23,8 +27,9 @@ __default__:
 # run_all_checkm_lineage_wf:
 #   queue: long
 
-#You can overwrite values for specific rules
-
-  #account: ""
-  #time:  # h
-  #threads:
+# You can  overwrite values for specific rules
+# rulename:
+#   queue: long
+#   account: ""
+#   time:  # h
+#   threads:
