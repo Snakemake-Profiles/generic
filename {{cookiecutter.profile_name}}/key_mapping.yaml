@@ -16,7 +16,7 @@ pbs:
   key_mapping:
     name: "-N {}"
     account: "-A {}"
-    queue: "-l partition={}"
+    queue: "-q {}"
     threads: "-l nodes=1:ppn={}" # always use 1 node
     mem: "-l mem={}gb"
     time: "-l walltime={}00" #min= seconds x 100

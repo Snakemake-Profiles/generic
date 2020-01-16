@@ -72,7 +72,7 @@ else:
         jobid = match.group(1)
 
     elif system=='pbs':
-        jobid= res.strip()
+        jobid= res.strip().split('.')[0]
 
     else:
         jobid= int(res.strip().split()[-1])
