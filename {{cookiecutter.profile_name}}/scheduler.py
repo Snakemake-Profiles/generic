@@ -60,7 +60,7 @@ command+=' {}'.format(jobscript)
 
 eprint("submit command: "+command)
 
-p = Popen(command.split(' '), stdout=PIPE, stderr=PIPE)
+p = Popen(command.split(' '), stdout=PIPE, stderr=PIPE,shell=True)
 output, error = p.communicate()
 if p.returncode != 0:
     raise Exception("Job can't be submitted\n"+output.decode("utf-8")+error.decode("utf-8"))
@@ -72,7 +72,7 @@ else:
         jobid = match.group(1)
 
     elif system=='pbs':
-        jobid= res.strip().split('.')[0]
+        jobid= res.strip()
 
     else:
         jobid= int(res.strip().split()[-1])
