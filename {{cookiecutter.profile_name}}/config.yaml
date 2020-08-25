@@ -1,5 +1,5 @@
 restart-times: 0
-cluster-config: "$((INSTALDIR))/overwrite_cluster_param.yaml" #abs path
+cluster-config: "$((INSTALDIR))/cluster_config.yaml" #abs path
 cluster: "scheduler.py" #
 cluster-status: "{{cookiecutter.cluster_system}}_status.py" #
 max-jobs-per-second: 10
@@ -7,4 +7,4 @@ max-status-checks-per-second: 10
 cores: 99 # how many jobs you want to submit to your cluster queue
 local-cores: 1
 rerun-incomplete: true  # recomended for cluster submissions
-keep-going: true
+keep-going: false

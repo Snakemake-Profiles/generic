@@ -1,5 +1,4 @@
 {
   "profile_name": "cluster",
-  "cluster_system": "slurm",
-  "default_queue": "normal",
+  "cluster_system": "slurm"
 }

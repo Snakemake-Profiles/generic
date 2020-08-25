@@ -5,6 +5,7 @@ import sys, os
 from subprocess import Popen, PIPE
 import yaml
 
+
 def eprint(*args, **kwargs):
     print(*args, file=sys.stderr, **kwargs)
 
@@ -29,7 +30,7 @@ else:
 
 
 # don't overwrite default parameters if defined in rule (or config file)
-if ('threads' in job_properties) and ('time' not in cluster_param):
+if ('threads' in job_properties) and ('threads' not in cluster_param):
     cluster_param["threads"] = job_properties["threads"]
 for res in ['time','mem']:
     if (res in job_properties["resources"]) and (res not in cluster_param):
@@ -44,9 +45,10 @@ if "time" in cluster_param:
 key_mapping_file=os.path.join(os.path.dirname(__file__),"key_mapping.yaml")
 command_options=yaml.load(open(key_mapping_file),
                           Loader=yaml.BaseLoader)
-command= command_options[command_options['system']]['command']
+system= command_options['system']
+command= command_options[system]['command']
 
-key_mapping= command_options[command_options['system']]['key_mapping']
+key_mapping= command_options[system]['key_mapping']
 
 # construct command:
 for  key in key_mapping:
@@ -64,5 +66,16 @@ if p.returncode != 0:
     raise Exception("Job can't be submitted\n"+output.decode("utf-8")+error.decode("utf-8"))
 else:
     res= output.decode("utf-8")
-    jobid= int(res.strip().split()[-1])
+
+    if system=='lsf':
+        import re
+        match = re.search(r"Job <(\d+)> is submitted", res)
+        jobid = match.group(1)
+
+    elif system=='pbs':
+        jobid= res.strip().split('.')[0]
+
+    else:
+        jobid= int(res.strip().split()[-1])
+
     print(jobid)

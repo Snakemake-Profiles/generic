@@ -15,21 +15,19 @@ pbs:
   command: "qsub"
   key_mapping:
     name: "-N {}"
-    account: "-W group_list={}"
+    account: "-A {}"
     queue: "-q {}"
-    nodes: "-l nodes={}" # -l has to be on first resource element
-    threads: "ppn={}"
-    mem: "mem={}gb"
-    time: "walltime={}00" #min= seconds x 100
+    threads: "-l nodes=1:ppn={}" # always use 1 node
+    mem: "-l mem={}gb"
+    time: "-l walltime={}00" #min= seconds x 100
 lsf:
-  command: "bsub"
+  command: "bsub -e lsf_%J.log -o lsf_%J.log"
   key_mapping:
+    queue: "-q {}"
     name: "-J {}"
     threads: "-n {}"
-    mem: "-M {}000000"
+    mem: '-R "rusage[mem={}000]"'
     account: "-P {}"
-    queue: "-q {}"
-    time: "-W {}"
     nodes: "-C {}"
 
 
