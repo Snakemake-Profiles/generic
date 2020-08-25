@@ -4,7 +4,7 @@
 import sys, os
 from subprocess import Popen, PIPE
 import yaml
-import re
+
 
 def eprint(*args, **kwargs):
     print(*args, file=sys.stderr, **kwargs)
@@ -60,7 +60,7 @@ command+=' {}'.format(jobscript)
 
 eprint("submit command: "+command)
 
-p = Popen(command.split(' '), stdout=PIPE, stderr=PIPE,shell=True)
+p = Popen(command.split(' '), stdout=PIPE, stderr=PIPE)
 output, error = p.communicate()
 if p.returncode != 0:
     raise Exception("Job can't be submitted\n"+output.decode("utf-8")+error.decode("utf-8"))
@@ -68,7 +68,8 @@ else:
     res= output.decode("utf-8")
 
     if system=='lsf':
-        match = re.search(r"Job <(\d+)> is submitted", response_stdout)
+        import re
+        match = re.search(r"Job <(\d+)> is submitted", res)
         jobid = match.group(1)
 
     elif system=='pbs':

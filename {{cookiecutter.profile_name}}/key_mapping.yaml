@@ -21,14 +21,13 @@ pbs:
     mem: "-l mem={}gb"
     time: "-l walltime={}00" #min= seconds x 100
 lsf:
-  command: "bsub"
+  command: "bsub -e lsf_%J.log -o lsf_%J.log"
   key_mapping:
+    queue: "-q {}"
     name: "-J {}"
     threads: "-n {}"
-    mem: "-M {}000000"
+    mem: '-R "rusage[mem={}000]"'
     account: "-P {}"
-    queue: "-q {}"
-    time: "-W {}"
     nodes: "-C {}"
 
 
