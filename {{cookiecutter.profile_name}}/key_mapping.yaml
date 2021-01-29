@@ -2,11 +2,11 @@
 system: "{{cookiecutter.cluster_system}}" #check if system is defined below
 
 slurm:
-  command: "sbatch --parsable"
+  command: 'sbatch --parsable --output=cluster_log/slurm-%j.out --error=cluster_log/slurm-%j.out'
   key_mapping:
     name: "--job-name={}"
-    threads: "-n {}"
-    mem: "--mem={}g"
+    threads: "--cpus-per-task={} -n 1"
+    mem: "--mem={}g "
     account: "--account={}"
     queue: "--partition={}"
     time: "--time={}"
