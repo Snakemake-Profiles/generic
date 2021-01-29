@@ -5,9 +5,13 @@ import sys, os
 from subprocess import Popen, PIPE
 import yaml
 
+from snakemake.logging import logger
 
-def eprint(*args, **kwargs):
-    print(*args, file=sys.stderr, **kwargs)
+def eprint(text):
+    #print(*args, file=sys.stderr, **kwargs)
+    logger.info(f'CLUSTER: {text}')
+
+os.makedirs('cluster_log', exist_ok=True)
 
 
 # let snakemake read job_properties
