@@ -64,7 +64,7 @@ command+=' {}'.format(jobscript)
 
 eprint("submit command: "+command)
 
-p = Popen(command.split(' '), stdout=PIPE, stderr=PIPE)
+p = Popen(command.split(), stdout=PIPE, stderr=PIPE)
 output, error = p.communicate()
 if p.returncode != 0:
     raise Exception("Job can't be submitted\n"+output.decode("utf-8")+error.decode("utf-8"))
