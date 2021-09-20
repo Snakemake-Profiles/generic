@@ -3,13 +3,15 @@
 This [snakemake profile](https://snakemake.readthedocs.io/en/stable/executable.html#profiles) configures atlas to run on cluster systems.
 
 The resources (threads, memory and time) are defined in the atlas config file.
-The units are minutes and GB but can be changed. The mapping between  resources and cluster are defined in the `key_mapping.yaml`. For now We have mapping for Slurm, LSF amnd PBS ).
+The units are minutes and mb but can be changed. The mapping between  resources and cluster are defined in the `key_mapping.yaml`. For now We have mapping for Slurm, LSF amnd PBS ).
 
 
-If you need to define queues, accounts you can do this for all rules or for specific rules in the `cluster_config.yaml`
+If you need to define queues, the best way is to list all queues available on your cluster in a table `queues.tsv` with the *maximum* resource limitations. There is an example in `queues.tsv.example`. The wrapper then automatically selects the optimal queue for you. Fantastic, isn't it.
 
-In addition, using this file you can overwrite the resources defined using the config file.
+Alternatively you can define/overwrite the queue values for all or some rules via the `cluster_config.yaml`.
 
+Using this file you can also define `account` and
+overwrite any other parameters defined using the config file.
 
 
 

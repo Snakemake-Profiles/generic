@@ -6,7 +6,7 @@
 # default parameter for all rules
 __default__:
   #queue: normal
-  nodes: 1
+
 
 
 # The following rules in atlas need need more time/memory.

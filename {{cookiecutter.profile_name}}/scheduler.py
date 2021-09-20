@@ -14,7 +14,7 @@ def handle_exception(exc_type, exc_value, exc_traceback):
         sys.__excepthook__(exc_type, exc_value, exc_traceback)
         return
 
-    logger.error(
+    logging.error(
         "".join(
             [
                 "Uncaught exception: ",
@@ -70,54 +70,53 @@ if "time" in cluster_param:
 
 # atlas legacy memory definition is in gb with the keyword "mem"
 # snakemake standard becomes "mem_mb"
-if ("mem" in cluster_param) and ("mem_mb" in cluster_param):
-    mem_in_mb= cluster_param.pop("mem")*1000
-    cluster_param["mem_mb"] = max( cluster_param["mem_mb"], mem_in_mb )
+if ("mem" in cluster_param):
+    cluster_param["mem_mb"] = cluster_param.pop("mem")*1000
+
 
 
 ## Definie queue
+queue_table_file = os.path.join(wrapper_directory,"queues.tsv")
+if ('queue' not in cluster_param) and os.path.exists(queue_table_file):
 
-if 'queue' not in cluster_param:
-    # If queues.tsv exist in wrapper directory read it
-    queue_table_file = os.path.join(wrapper_directory,"queues.tsv")
-    if not os.path.exists(queue_table_file):
-        logging.warning("No queue defined. I hope default works. Check documentation how to define queues."
-                        )
+
+    logging.info("Automatically choose best queue to submit")
+
+    # load pandas only now to parse table
+    import pandas as pd
+    queue_table = pd.read_table(queue_table_file,index_col=0,comment='#')
+
+    logging.debug(f"Parameters to constrain queues:\n {cluster_param}")
+
+    # for each parameter in queu_params and table subset the queue_table
+    for param in cluster_param:
+        if param in queue_table.columns:
+
+            logging.debug(f"Queue_table:\n{queue_table}")
+
+            filter_criteria= f"{param} >= {cluster_param[param]}"
+            logging.debug(f"Filter table with'{filter_criteria}'")
+            queue_table= queue_table.query(filter_criteria)
+
+    if queue_table.shape[0]==0:
+        logging.error("No queue corresponding to the rule parameters are found. \n"
+                      "You need to adapt the snakemake resources!\n"
+                      f"Parameters to constrain queues:\n {cluster_param}\n"
+                      f"queue_table: {queue_table_file}\n"
+                      )
+        exit(1)
     else:
+        # choose queue with highest priority
+        if ('priority' not in queue_table.columns) & (queue_table.shape[0]>1):
 
-        logging.info("Automatically choose best queue to submit")
+            logging.info(f"'priority' not in queue table. I don't know how to prioritize. I choose the first.")
 
-        # load pandas only now to parse table
-        import pandas as pd
-        queue_table = pd.read_table(queue_table_file,index_col=0)
-
-        logging.debug(f"Parameters to constrain queues:\n {cluster_param}")
-        logging.debug(f"Queues in queue_table: {queue_table.index.values}")
-
-        # for each parameter in queu_params and table subset the queue_table
-        for param in cluster_param:
-            if key in queue_table.columns:
-                queue_table= queue_table.query(f"{key} <= {cluster_param[key]}")
-
-        if queue_table.shape[0]==0:
-            logging.error("No queue corresponding to the rule parameters are found. \n"
-                          "You need to adapt the snakemake resources!\n"
-                          f"Parameters to constrain queues:\n {cluster_param}\n"
-                          f"queue_table: {queue_table_file}\n"
-                          )
-            exit(1)
         else:
-            # choose queue with highest priority
-            if ('property' not in queue_table.columns) & (queue_table.shape[0]>1):
+            # sort queue ascending by priority
+            queue_table.sort_values('priority',inplace=True)
 
-                logging.info(f"'priority' not in queue table. I don't know how to prioritize. I choose the first.")
-
-            else:
-                # sort queue ascending by priority
-                queue_table.sort_values('priority',inplace=True)
-
-            cluster_param['queue']= queue_table.index[0]
-            logging.info(f"Choose queue: {cluster_param['queue']}")
+        cluster_param['queue']= queue_table.index[0]
+        logging.info(f"Choose queue: {cluster_param['queue']}")
 
 
 
@@ -133,9 +132,10 @@ key_mapping= command_options[system]['key_mapping']
 
 # construct command:
 for  key in cluster_param:
-    logging.warning(f"parameter {key} not in keymapping! It would be better if you add the key to the file: {key_mapping_file} \n I try without the key!"
+    if key not in key_mapping:
+        logging.warning(f"parameter '{key}' not in keymapping! It would be better if you add the key to the file: {key_mapping_file} \n I try without the key!"
                   )
-    if key in key_mapping:
+    else:
         command+=" "
         command+=key_mapping[key].format(cluster_param[key])
 
