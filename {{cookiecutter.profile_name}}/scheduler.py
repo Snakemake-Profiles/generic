@@ -44,6 +44,13 @@ for res in ['time','mem']:
 if "time" in cluster_param:
     cluster_param["time"]=int(cluster_param["time"]*60)
 
+# atlas legacy memory definition is in gb with the keyword "mem"
+# snakemake standard becomes "mem_mb"
+if ("mem" in cluster_param) and ("mem_mb" in cluster_param):
+    mem_in_mb= cluster_param.pop("mem")*1000
+    cluster_param["mem_mb"] = max( cluster_param["mem_mb"], mem_in_mb )
+
+    
 
 # check which system you are on and load command command_options
 key_mapping_file=os.path.join(os.path.dirname(__file__),"key_mapping.yaml")

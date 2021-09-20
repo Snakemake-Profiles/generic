@@ -6,7 +6,7 @@ slurm:
   key_mapping:
     name: "--job-name={}"
     threads: "--cpus-per-task={} -n 1"
-    mem: "--mem={}g"
+    mem_mb: "--mem={}m"
     account: "--account={}"
     queue: "--partition={}"
     time: "--time={}"
@@ -18,7 +18,7 @@ pbs:
     account: "-A {}"
     queue: "-q {}"
     threads: "-l nodes=1:ppn={}" # always use 1 node
-    mem: "-l mem={}gb"
+    mem_mb: "-l mem={}mb"
     time: "-l walltime={}00" #min= seconds x 100
 lsf:
   command: "bsub -e lsf_%J.log -o lsf_%J.log"
@@ -26,7 +26,7 @@ lsf:
     queue: "-q {}"
     name: "-J {}"
     threads: "-n {}"
-    mem: '-R "rusage[mem={}000]"'
+    mem_mb: '-R "rusage[mem={}]"'
     account: "-P {}"
     nodes: "-C {}"
 
