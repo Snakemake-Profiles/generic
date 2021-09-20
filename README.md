@@ -37,3 +37,4 @@ Then, you can run atlas on a cluster with
 
 If a job fails, you will find the "external jobid" in the error message.
 You can investigate the job via this ID.
+By default the cluster logs are saved in the folder `cluster_logs`
