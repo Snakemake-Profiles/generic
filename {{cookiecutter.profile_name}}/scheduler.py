@@ -41,8 +41,7 @@ os.makedirs('cluster_log', exist_ok=True)
 
 # let snakemake read job_properties
 from snakemake.utils import read_job_properties
-
-
+wrapper_directory= os.path.dirname(__file__)
 
 jobscript = sys.argv[1]
 job_properties = read_job_properties(jobscript)
@@ -78,20 +77,48 @@ if ("mem" in cluster_param) and ("mem_mb" in cluster_param):
 
 ## Definie queue
 
-wrapper_directory= os.path.dirname(__file__)
+if 'queue' not in cluster_param:
+    # If queues.tsv exist in wrapper directory read it
+    queue_table_file = os.path.join(wrapper_directory,"queues.tsv")
+    if not os.path.exists(queue_table_file):
+        logging.warning("No queue defined. I hope default works. Check documentation how to define queues."
+                        )
+    else:
 
-queue_table_file = os.path.join(wrapper_directory,"queues.tsv")
+        logging.info("Automatically choose best queue to submit")
 
-if not os.path.exists(queue_table_file):
+        # load pandas only now to parse table
+        import pandas as pd
+        queue_table = pd.read_table(queue_table_file,index_col=0)
 
-    logging.debug("No queue table found. Cannot infer queue tables")
-else:
+        logging.debug(f"Parameters to constrain queues:\n {cluster_param}")
+        logging.debug(f"Queues in queue_table: {queue_table.index.values}")
 
-    # load pandas only now to parse table
-    import pandas as pd
-    queue_table = pd.read_table(queue_table_file,index_col=0)
+        # for each parameter in queu_params and table subset the queue_table
+        for param in cluster_param:
+            if key in queue_table.columns:
+                queue_table= queue_table.query(f"{key} <= {cluster_param[key]}")
 
-    
+        if queue_table.shape[0]==0:
+            logging.error("No queue corresponding to the rule parameters are found. \n"
+                          "You need to adapt the snakemake resources!\n"
+                          f"Parameters to constrain queues:\n {cluster_param}\n"
+                          f"queue_table: {queue_table_file}\n"
+                          )
+            exit(1)
+        else:
+            # choose queue with highest priority
+            if ('property' not in queue_table.columns) & (queue_table.shape[0]>1):
+
+                logging.info(f"'priority' not in queue table. I don't know how to prioritize. I choose the first.")
+
+            else:
+                # sort queue ascending by priority
+                queue_table.sort_values('priority',inplace=True)
+
+            cluster_param['queue']= queue_table.index[0]
+            logging.info(f"Choose queue: {cluster_param['queue']}")
+
 
 
 
@@ -105,8 +132,10 @@ command= command_options[system]['command']
 key_mapping= command_options[system]['key_mapping']
 
 # construct command:
-for  key in key_mapping:
-    if key in cluster_param:
+for  key in cluster_param:
+    logging.warning(f"parameter {key} not in keymapping! It would be better if you add the key to the file: {key_mapping_file} \n I try without the key!"
+                  )
+    if key in key_mapping:
         command+=" "
         command+=key_mapping[key].format(cluster_param[key])
 
@@ -117,7 +146,9 @@ eprint("submit command: "+command)
 p = Popen(command.split(), stdout=PIPE, stderr=PIPE)
 output, error = p.communicate()
 if p.returncode != 0:
-    raise Exception("Job can't be submitted\n"+output.decode("utf-8")+error.decode("utf-8"))
+
+    logging.error("Job can't be submitted\n"+output.decode("utf-8")+error.decode("utf-8"))
+    exit(p.returncode)
 else:
     res= output.decode("utf-8")
 
