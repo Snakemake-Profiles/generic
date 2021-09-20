@@ -1,15 +1,40 @@
 #!/usr/bin/env python3
+import os, sys
+import logging, traceback
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="CLUSTER: %(asctime)s %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
+)
 
 
-import sys, os
+def handle_exception(exc_type, exc_value, exc_traceback):
+    if issubclass(exc_type, KeyboardInterrupt):
+        sys.__excepthook__(exc_type, exc_value, exc_traceback)
+        return
+
+    logger.error(
+        "".join(
+            [
+                "Uncaught exception: ",
+                *traceback.format_exception(exc_type, exc_value, exc_traceback),
+            ]
+        )
+    )
+
+# Install exception handler
+sys.excepthook = handle_exception
+
+## Beginning of the script
+
 from subprocess import Popen, PIPE
 import yaml
 
-from snakemake.logging import logger
 
 def eprint(text):
     #print(*args, file=sys.stderr, **kwargs)
-    logger.info(f'CLUSTER: {text}')
+    logging.info(f'CLUSTER: {text}')
 
 os.makedirs('cluster_log', exist_ok=True)
 
@@ -50,10 +75,28 @@ if ("mem" in cluster_param) and ("mem_mb" in cluster_param):
     mem_in_mb= cluster_param.pop("mem")*1000
     cluster_param["mem_mb"] = max( cluster_param["mem_mb"], mem_in_mb )
 
+
+## Definie queue
+
+wrapper_directory= os.path.dirname(__file__)
+
+queue_table_file = os.path.join(wrapper_directory,"queues.tsv")
+
+if not os.path.exists(queue_table_file):
+
+    logging.debug("No queue table found. Cannot infer queue tables")
+else:
+
+    # load pandas only now to parse table
+    import pandas as pd
+    queue_table = pd.read_table(queue_table_file,index_col=0)
+
     
 
+
+
 # check which system you are on and load command command_options
-key_mapping_file=os.path.join(os.path.dirname(__file__),"key_mapping.yaml")
+key_mapping_file=os.path.join(wrapper_directory,"key_mapping.yaml")
 command_options=yaml.load(open(key_mapping_file),
                           Loader=yaml.BaseLoader)
 system= command_options['system']
