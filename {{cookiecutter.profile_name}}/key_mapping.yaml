@@ -1,5 +1,5 @@
 # only parameters defined in key_mapping (see below) are passed to the command in the order specified.
-system: "slurm" #check if system is defined below
+system: "{{cookiecutter.cluster_system}}" #check if system is defined below
 
 slurm:
   command: 'sbatch --parsable --output=cluster_log/%j.out --error=cluster_log/%j.out'
