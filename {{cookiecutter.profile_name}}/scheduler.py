@@ -33,11 +33,6 @@ from subprocess import Popen, PIPE
 import yaml
 
 
-def eprint(text):
-    # print(*args, file=sys.stderr, **kwargs)
-    logging.info(f"CLUSTER: {text}")
-
-
 os.makedirs("cluster_log", exist_ok=True)
 
 
@@ -68,16 +63,6 @@ if ("threads" in job_properties) and ("threads" not in cluster_param):
 for res in ["time", "mem"]:
     if (res in job_properties["resources"]) and (res not in cluster_param):
         cluster_param[res] = job_properties["resources"][res]
-
-# time in hours
-if "time" in cluster_param:
-    cluster_param["time"] = int(cluster_param["time"] * 60)
-
-# atlas legacy memory definition is in gb with the keyword "mem"
-# snakemake standard becomes "mem_mb"
-if "mem" in cluster_param:
-    cluster_param["mem_mb"] = cluster_param.pop("mem") * 1000
-
 
 ## Definie queue
 queue_table_file = os.path.join(wrapper_directory, "queues.tsv")
@@ -146,7 +131,7 @@ for key in cluster_param:
 
 command += " {}".format(jobscript)
 
-eprint("submit command: " + command)
+logging.info("submit command: " + command)
 
 p = Popen(command.split(), stdout=PIPE, stderr=PIPE)
 output, error = p.communicate()
