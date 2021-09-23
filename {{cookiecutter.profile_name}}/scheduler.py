@@ -60,7 +60,8 @@ else:
 # don't overwrite default parameters if defined in rule (or config file)
 if ("threads" in job_properties) and ("threads" not in cluster_param):
     cluster_param["threads"] = job_properties["threads"]
-for res in ["time", "mem"]:
+    
+for res in ["time_min", "mem_mb"]:
     if (res in job_properties["resources"]) and (res not in cluster_param):
         cluster_param[res] = job_properties["resources"][res]
 

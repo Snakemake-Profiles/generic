@@ -13,5 +13,5 @@
 rulename:
   queue: long
   account: ""
-  time:  # h
+  time_min:  # min
   threads:
