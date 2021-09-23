@@ -1,6 +1,6 @@
 # column names and units should be the same as in the key_mapping.yaml
 # queue with lowest priority values is choosen first
-queue	priority	threads	mem_mb	time
+queue	priority	threads	mem_mb	time_min
 small	1	40	382000	4320
 large	2	1040	382000	4320
 hugemem	3	160	1534000	4320
