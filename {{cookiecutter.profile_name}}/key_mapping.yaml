@@ -9,7 +9,7 @@ slurm:
     mem_mb: "--mem={}m"
     account: "--account={}"
     queue: "--partition={}"
-    time: "--time={}"
+    time_min: "--time={}"
 pbs:
   command: "qsub"
   key_mapping:
@@ -18,7 +18,7 @@ pbs:
     queue: "-q {}"
     threads: "-l nodes=1:ppn={}" # always use 1 node
     mem_mb: "-l mem={}mb"
-    time: "-l walltime={}00" #min= seconds x 100
+    time_min: "-l walltime={}00" #min= seconds x 100
 lsf:
   command: "bsub -e %J.log -o %J.log"
   key_mapping:
@@ -27,6 +27,7 @@ lsf:
     threads: "-n {}"
     mem_mb: '-R "rusage[mem={}]" -C1'
     account: "-P {}"
+# TODO: time_min    
 
 
 
