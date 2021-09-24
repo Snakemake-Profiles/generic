@@ -60,7 +60,7 @@ else:
 # don't overwrite default parameters if defined in rule (or config file)
 if ("threads" in job_properties) and ("threads" not in cluster_param):
     cluster_param["threads"] = job_properties["threads"]
-    
+
 for res in ["time_min", "mem_mb"]:
     if (res in job_properties["resources"]) and (res not in cluster_param):
         cluster_param[res] = job_properties["resources"][res]
@@ -138,9 +138,15 @@ p = Popen(command.split(), stdout=PIPE, stderr=PIPE)
 output, error = p.communicate()
 if p.returncode != 0:
 
-    logging.error(
-        "Job can't be submitted\n" + output.decode("utf-8") + error.decode("utf-8")
-    )
+
+    error_message = "Job can't be submitted\n" + output.decode("utf-8") + error.decode("utf-8")
+
+    logging.error(error_message)
+
+    #give it to snakemake
+    print(error_message)
+
+
     exit(p.returncode)
 else:
     res = output.decode("utf-8")
