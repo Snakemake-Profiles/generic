@@ -2,15 +2,14 @@
 system: "{{cookiecutter.cluster_system}}" #check if system is defined below
 
 slurm:
-  command: "sbatch --parsable"
+  command: 'sbatch --parsable --output=cluster_log/%j.out --error=cluster_log/%j.out'
   key_mapping:
     name: "--job-name={}"
-    threads: "-n {}"
-    mem: "--mem={}g"
+    threads: "--cpus-per-task={} -n1"
+    mem_mb: "--mem={}m"
     account: "--account={}"
     queue: "--partition={}"
-    time: "--time={}"
-    nodes: "-N {}"
+    time_min: "--time={}"
 pbs:
   command: "qsub"
   key_mapping:
@@ -18,17 +17,18 @@ pbs:
     account: "-A {}"
     queue: "-q {}"
     threads: "-l nodes=1:ppn={}" # always use 1 node
-    mem: "-l mem={}gb"
-    time: "-l walltime={}00" #min= seconds x 100
+    mem_mb: "-l mem={}mb"
+    time_min: "-l walltime={}00" #min= seconds x 100
 lsf:
-  command: "bsub -e lsf_%J.log -o lsf_%J.log"
+  command: "bsub -e %J.log -o %J.log"
   key_mapping:
     queue: "-q {}"
     name: "-J {}"
     threads: "-n {}"
-    mem: '-R "rusage[mem={}000]"'
+    mem_mb: '-R "rusage[mem={}]" -C1'
     account: "-P {}"
-    nodes: "-C {}"
+# TODO: time_min    
+
 
 
 
