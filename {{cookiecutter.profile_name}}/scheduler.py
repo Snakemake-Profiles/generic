@@ -157,7 +157,7 @@ else:
         match = re.search(r"Job <(\d+)> is submitted", res)
         jobid = match.group(1)
 
-    elif system == "pbs":
+    elif system == "pbs" or system == "pbspro":
         jobid = res.strip().split(".")[0]
 
     else:
